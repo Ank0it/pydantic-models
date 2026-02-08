@@ -53,3 +53,15 @@ This README captures the unique problems encountered while running the project b
 13. **Printed bound method instead of value**
    - Issue: Output like `<built-in method upper of str object ...>`
    - Cause: Printing `str.upper` (method) instead of calling it (missing `()`).
+
+14. **Script file not found**
+   - Error: `can't open file 'C:\\pydnaticX100\\5_computed_field.py': [Errno 2] No such file or directory`
+   - Cause: Filename mismatch (`5_computed_field.py` vs `5_computed_fields.py`).
+
+15. **Missing computed fields import**
+   - Error: `ImportError: cannot import name 'computed_fields' from 'pydantic'`
+   - Cause: Incorrect import name; Pydantic v2 exposes `computed_field` (singular).
+
+16. **Computed property missing on model**
+   - Error: `AttributeError: 'Patient' object has no attribute 'bmi'`
+   - Cause: `bmi` was accessed but not defined as a field or computed property on the model.

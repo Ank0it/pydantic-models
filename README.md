@@ -101,3 +101,110 @@ This README documents the functions and model validators in this project and how
   - Purpose: Print patient details and confirm update.
   - Usage: Call with a `Patient` instance when updating.
   - Reference: [3_field_validator.py](3_field_validator.py#L45)
+
+## 4_model_validator.py
+
+### Imports and why they are used
+
+- `BaseModel` (from `pydantic`)
+  - Use case: Define the `Patient` model with typed fields.
+  - Problem solved: Validates and parses the input payload.
+
+- `EmailStr` (from `pydantic`)
+  - Use case: Enforce valid email format for `email`.
+  - Problem solved: Rejects invalid email strings before custom checks run.
+
+- `AnyUrl` (from `pydantic`)
+  - Use case: Validate the `linked_in_urls` field.
+  - Problem solved: Ensures the URL is syntactically valid.
+
+- `Field` (from `pydantic`)
+  - Use case: Add constraints when needed.
+  - Problem solved: Provides declarative validation rules for fields.
+
+- `model_validator` (from `pydantic`)
+  - Use case: Validate multiple fields together.
+  - Problem solved: Enforces cross-field rules (e.g., emergency contact for seniors).
+
+- `List`, `Dict`, `Optional`, `Annotated` (from `typing`)
+  - Use case: Express list, dict, optional fields, and field metadata.
+  - Problem solved: Makes field intent explicit and improves validation behavior.
+
+- `validate_emergency_contact(cls, model)`
+  - Purpose: Require an emergency contact when `age > 60`.
+  - Usage: Runs automatically via `@model_validator(mode='after')` on model creation.
+  - Reference: [4_model_validator.py](4_model_validator.py#L17)
+
+- `insert_patient_details(patient: Patient)`
+  - Purpose: Print patient details and confirm insertion.
+  - Usage: Called after creating `patient1` from `patient_info`.
+  - Reference: [4_model_validator.py](4_model_validator.py#L25)
+
+## 5_computed_fields.py
+
+### Imports and why they are used
+
+- `BaseModel` (from `pydantic`)
+  - Use case: Define the `Patient` model with typed fields.
+  - Problem solved: Validates and parses the input payload.
+
+- `EmailStr` (from `pydantic`)
+  - Use case: Enforce valid email format for `email`.
+  - Problem solved: Rejects invalid email strings before custom checks run.
+
+- `AnyUrl` (from `pydantic`)
+  - Use case: Validate the `linked_in_urls` field.
+  - Problem solved: Ensures the URL is syntactically valid.
+
+- `Field` (from `pydantic`)
+  - Use case: Add constraints when needed.
+  - Problem solved: Provides declarative validation rules for fields.
+
+- `computed_field` (from `pydantic`)
+  - Use case: Add a derived field computed from other fields.
+  - Problem solved: Exposes `bmi` without storing it as input.
+
+- `List`, `Dict`, `Optional`, `Annotated` (from `typing`)
+  - Use case: Express list, dict, optional fields, and field metadata.
+  - Problem solved: Makes field intent explicit and improves validation behavior.
+
+- `bmi(self)`
+  - Purpose: Compute BMI from `weight` and `height`.
+  - Usage: Accessed as `patient.bmi` after model creation.
+  - Reference: [5_computed_fields.py](5_computed_fields.py#L18)
+
+- `insert_patient_details(patient: Patient)`
+  - Purpose: Print patient details and BMI, then confirm insertion.
+  - Usage: Called after creating `patient1` from `patient_info`.
+  - Reference: [5_computed_fields.py](5_computed_fields.py#L25)
+
+## 6_nested_models.py
+
+### Imports and why they are used
+
+- `BaseModel` (from `pydantic`)
+  - Use case: Define `Address` and `Patient` models.
+  - Problem solved: Validates nested payloads automatically.
+
+- `Address` model
+  - Purpose: Encapsulate address fields inside `Patient`.
+  - Usage: Created from `address_dict` and passed to `Patient`.
+  - Reference: [6_nested_models.py](6_nested_models.py#L7)
+
+- `Patient` model
+  - Purpose: Compose patient fields with a nested `Address`.
+  - Usage: Created from `patient_dict` with a nested `Address` instance.
+  - Reference: [6_nested_models.py](6_nested_models.py#L13)
+
+## 7_serialization.py
+
+### Imports and why they are used
+
+- `BaseModel` (from `pydantic`)
+  - Use case: Define `Address` and `Patient` models.
+  - Problem solved: Validates nested payloads before serialization.
+
+- `model_dump()`
+  - Purpose: Serialize model data to a dictionary.
+  - Usage: Demonstrates include/exclude patterns for exporting fields.
+  - Reference: [7_serialization.py](7_serialization.py#L28)
